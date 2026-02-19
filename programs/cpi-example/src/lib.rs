@@ -13,6 +13,7 @@ declare_program!(m3m3);
 use crate::dlmm_swap::*;
 use crate::dynamic_amm_swap::*;
 use crate::dlmm_add_liquidty_one_side::*;
+use crate::dlmm_close_position::*;
 
 fn assert_eq_admin(_key: Pubkey) -> bool {
     true
@@ -24,6 +25,11 @@ declare_id!("4JTNRRQpgLusbEhGnzTuE9kgPgMLXQX1wqBzU52GduqH");
 pub mod cpi_example {
     use super::*;
 
+    pub fn dlmm_close_position(
+        ctx: Context<DlmmClosePosition>,
+    ) -> Result<()> {
+        instructions::dlmm_close_position::handle_dlmm_close_position(ctx)
+    }
     pub fn dlmm_add_liquidity_one_side(
         ctx: Context<DlmmAddLiquidityOneSide>,
         amount: u64,
