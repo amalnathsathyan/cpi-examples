@@ -13,6 +13,7 @@ Disclaimer: This repository only serves as examples and is not intended for prod
 ## Contents
 
 - [CPI to DLMM swap example](programs/cpi-example/src/instructions/dlmm_cpi/swap.rs)
+- [CPI to DLMM AddLiquidityOneSide Example](programs/cpi-example/src/instructions/dlmm_cpi/add_liquidty_one_side.rs)
 - [CPI to Dynamic AMM swap example](programs/cpi-example/src/instructions/dynamic_amm_cpi/swap.rs)
 
 - [CPI to Dynamic AMM initialize pool example](programs/cpi-example/src/instructions/dynamic_amm_cpi/initialize_customizable_permissionless_pool.rs)
