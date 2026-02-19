@@ -12,6 +12,7 @@ declare_program!(m3m3);
 
 use crate::dlmm_swap::*;
 use crate::dynamic_amm_swap::*;
+use crate::dlmm_add_liquidty_one_side::*;
 
 fn assert_eq_admin(_key: Pubkey) -> bool {
     true
@@ -23,6 +24,21 @@ declare_id!("4JTNRRQpgLusbEhGnzTuE9kgPgMLXQX1wqBzU52GduqH");
 pub mod cpi_example {
     use super::*;
 
+    pub fn dlmm_add_liquidity_one_side(
+        ctx: Context<DlmmAddLiquidityOneSide>,
+        amount: u64,
+        active_id: i32,
+        max_active_bin_slippage: i32,
+        bin_liquidity_dist: Vec<dlmm::types::BinLiquidityDistributionByWeight>,
+    ) -> Result<()> {
+        instructions::dlmm_cpi::dlmm_add_liquidty_one_side::handle_dlmm_add_liquidity_one_side(
+            ctx,
+            amount,
+            active_id,
+            max_active_bin_slippage,
+            bin_liquidity_dist,
+        )
+    }
     pub fn dlmm_swap<'a, 'b, 'c, 'info>(
         ctx: Context<'a, 'b, 'c, 'info, DlmmSwap<'info>>,
         amount_in: u64,
