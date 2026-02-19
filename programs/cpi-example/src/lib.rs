@@ -14,6 +14,8 @@ use crate::dlmm_swap::*;
 use crate::dynamic_amm_swap::*;
 use crate::dlmm_add_liquidty_one_side::*;
 use crate::dlmm_close_position::*;
+use crate::dlmm_remove_liquidity::*;
+use crate::dlmm_remove_all_liquidity::*;
 
 fn assert_eq_admin(_key: Pubkey) -> bool {
     true
@@ -25,11 +27,7 @@ declare_id!("4JTNRRQpgLusbEhGnzTuE9kgPgMLXQX1wqBzU52GduqH");
 pub mod cpi_example {
     use super::*;
 
-    pub fn dlmm_close_position(
-        ctx: Context<DlmmClosePosition>,
-    ) -> Result<()> {
-        instructions::dlmm_close_position::handle_dlmm_close_position(ctx)
-    }
+    
     pub fn dlmm_add_liquidity_one_side(
         ctx: Context<DlmmAddLiquidityOneSide>,
         amount: u64,
@@ -53,6 +51,31 @@ pub mod cpi_example {
         instructions::dlmm_cpi::dlmm_swap::handle_dlmm_swap(ctx, amount_in, min_amount_out)
     }
 
+    pub fn dlmm_close_position(
+        ctx: Context<DlmmClosePosition>,
+    ) -> Result<()> {
+        instructions::dlmm_close_position::handle_dlmm_close_position(ctx)
+    }
+    /// Removes liquidity from specific bins at specified percentages.
+    /// Each entry in bin_liquidity_removal targets one bin with bps_to_remove
+    /// out of 10000 (e.g. 10000 = 100%, 5000 = 50%).
+    /// Position remains open after this call.
+    pub fn dlmm_remove_liquidity(
+        ctx: Context<DlmmRemoveLiquidity>,
+        bin_liquidity_removal: Vec<dlmm::types::BinLiquidityReduction>,
+    ) -> Result<()> {
+        instructions::dlmm_cpi::dlmm_remove_liquidity::handle_dlmm_remove_liquidity(
+            ctx,
+            bin_liquidity_removal,
+        )
+    }
+
+     pub fn dlmm_remove_all_liquidity(
+        ctx: Context<DlmmRemoveAllLiquidity>,
+    ) -> Result<()> {
+        instructions::dlmm_cpi::dlmm_remove_all_liquidity::handle_dlmm_remove_all_liquidity(ctx)
+    }
+    
     pub fn initialize_dynamic_amm_customizable_permissionless_pool(
         ctx: Context<DynamicAmmInitializeCustomizablePermissionlessPool>,
         token_a_amount: u64,
